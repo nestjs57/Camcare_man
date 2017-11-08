@@ -4,20 +4,34 @@
     android:layout_height="match_parent"
     tools:context="com.comcare.comcare_user.firstFragment">
 
+
+
     <!-- TODO: Update blank fragment layout -->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="fragment home" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ลงทะเบียนด้วยเฟสบุ๊ค" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/outline"
+                android:text="หรือลงทะเบียนด้วยอีเมล์" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
