@@ -22,12 +22,18 @@
                 android:id="@+id/button4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/outline"
                 android:text="ลงทะเบียนด้วยเฟสบุ๊ค" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:background="@drawable/outline"
                 android:text="หรือลงทะเบียนด้วยอีเมล์" />
 
