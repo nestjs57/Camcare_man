@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Comcare_user.iml" filepath="$PROJECT_DIR$/Comcare_user.iml" />
-      <module fileurl="file://C:\Users\nongt\Desktop\Comcare_user\Comcare_user.iml" filepath="C:\Users\nongt\Desktop\Comcare_user\Comcare_user.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\nongt\Desktop\Comcare_user\app\app.iml" filepath="C:\Users\nongt\Desktop\Comcare_user\app\app.iml" />
     </modules>
   </component>
 </project>
