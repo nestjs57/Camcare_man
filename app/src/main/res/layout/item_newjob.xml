@@ -14,17 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="8"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:paddingBottom="10dp"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_height="10dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="9"
-            app:srcCompat="@drawable/location" />
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/location" />
 
         <TextView
             android:id="@+id/textView2"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:gravity="bottom"
             android:text="123 KM"
             android:textAlignment="center"
             android:textSize="14sp" />
@@ -62,10 +64,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:gravity="center_vertical"
-            android:text="TextView"
+            android:text="อาการ : เครื่องเปิดไม่ติดไม่รู้จะทำไงดี"
             android:textColor="#333"
-            android:textSize="16sp"
-            tools:text="อาการ : เครื่องเปิดไม่ติดไม่รู้จะทำไงดี" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textView5"

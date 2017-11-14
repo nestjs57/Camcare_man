@@ -8,6 +8,6 @@ public class login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_newjob);
+        setContentView(R.layout.activity_login);
     }
 }
