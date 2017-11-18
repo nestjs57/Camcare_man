@@ -123,13 +123,13 @@
             android:text="มีบัญชีอยู่แล้ว? " />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/txtLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="5"
             android:text="เข้าสู่ระบบ"
-            android:textColor="#6699ff"
-            android:layout_gravity="center_vertical" />
+            android:textColor="#6699ff" />
     </LinearLayout>
 
 
