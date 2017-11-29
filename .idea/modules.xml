@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Camcare_man.iml" filepath="$PROJECT_DIR$/Camcare_man.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Camcare_man.iml" filepath="$PROJECT_DIR$/.idea/Camcare_man.iml" />
+      <module fileurl="file://E:\Camcare_man\Camcare_man.iml" filepath="E:\Camcare_man\Camcare_man.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
