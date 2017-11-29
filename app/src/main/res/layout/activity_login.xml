@@ -7,112 +7,110 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-
     tools:context="com.comcare.comcare_user.login">
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical">-->
-
-    <!--<android.support.v7.widget.Toolbar-->
-    <!--android:id="@+id/toolbar2"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:background="@color/colorPrimary">-->
-
-    <!--<RelativeLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/mLocationTextView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_alignParentBottom="false"-->
-    <!--android:layout_alignParentRight="false"-->
-    <!--android:layout_marginRight="8dp"-->
-    <!--android:gravity="left|center"-->
-    <!--android:text="Comcare"-->
-    <!--android:textColor="@android:color/white"-->
-    <!--android:textSize="20sp" />-->
-
-
-
-
-
-    <ImageView
+        <ImageView
         android:id="@+id/imageView3"
         android:src="@drawable/logo"
-        android:layout_weight="5"
-        android:layout_height="0dp"
+        android:layout_height="170dp"
+        android:layout_width="170dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="50dp"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:paddingTop="60dp"
-        android:paddingBottom="100dp"/>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4">
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-
-            android:paddingLeft="35dp"
-            android:drawablePadding="-25dp"
-            android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:background="@drawable/outline_fb"
-            android:drawableLeft="@drawable/facebook"
-            android:text="ลงทะเบียนด้วยเฟสบุ๊ค"
-            android:textColor="#fff"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginEnd="70dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="2"
-            android:background="@drawable/outline"
-            android:text="หรือลงทะเบียนด้วยอีเมล์"
-            android:textColor="#9c9c9c"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+    </LinearLayout>
 
 
-    </android.support.constraint.ConstraintLayout>
-
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="#ccc"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:background="@drawable/loginbox1"
+            android:layout_marginBottom="5dp">
 
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/user"
+                android:layout_marginRight="5dp"/>
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:inputType="textPersonName"
+                android:background="@drawable/loginbox2"
+                android:paddingLeft="10dp"
+                android:hint="Username"
+                android:textColor="#333"
+                tools:layout_editor_absoluteX="85dp"
+                tools:layout_editor_absoluteY="0dp"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/loginbox1"
+            android:padding="2dp">
+
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/keys"
+                android:layout_marginRight="5dp"/>
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/loginbox2"
+                android:paddingLeft="10dp"
+                android:hint="Password"
+                android:inputType="textWebPassword"
+                android:textColor="#333"
+                tools:layout_editor_absoluteX="85dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginButton"
+            android:text="เข้าสู่ระบบ"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#33699c"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
@@ -120,7 +118,7 @@
             android:layout_weight="5"
             android:gravity="end"
             android:layout_gravity="center_vertical"
-            android:text="มีบัญชีอยู่แล้ว? " />
+            android:text="ยังไม่มีบัญชี? " />
 
         <TextView
             android:id="@+id/txtLogin"
@@ -128,8 +126,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="5"
-            android:text="เข้าสู่ระบบ"
+            android:text="สมัครสมาชิก"
             android:textColor="#6699ff" />
+    </LinearLayout>
     </LinearLayout>
 
 
