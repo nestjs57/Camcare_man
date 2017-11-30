@@ -127,7 +127,7 @@ public class firstFragment extends Fragment {
 
 
                     //if (firebaseDatabase.getUid().equals(uid)) {
-                        dataSet.add(new JobModel(km, name, problem, time, jobId, status));
+                        dataSet.add(new JobModel("10.5", name, problem, "comming soon ...", jobId, status));
                     //}
 
 

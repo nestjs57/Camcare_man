@@ -1,5 +1,6 @@
 package com.comcare.comcare_user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,9 +18,14 @@ import android.view.MenuItem;
 import com.comcare.comcare_user.Fragments.firstFragment;
 import com.comcare.comcare_user.Fragments.secondFragment;
 import com.comcare.comcare_user.Fragments.thirdFragment;
+import com.facebook.login.Login;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FirebaseUser mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,15 @@ public class MainActivity extends AppCompatActivity
         FragmentManager frg = getSupportFragmentManager();
         FragmentTransaction transaction = frg.beginTransaction();
         transaction.replace(R.id.content, new firstFragment()).commit();
+
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        if (mAuth == null) {
+            Intent intent = new Intent(getApplication(), Login.class);
+            startActivity(intent);
+            finish();
+
+        }
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
