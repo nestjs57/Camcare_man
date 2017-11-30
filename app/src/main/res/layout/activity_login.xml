@@ -95,15 +95,15 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:id="@+id/loginButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="#33699c"
             android:text="เข้าสู่ระบบ"
             android:textColor="#fff"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
-            android:background="#33699c"/>
+            android:textStyle="bold" />
 
 
     <LinearLayout
