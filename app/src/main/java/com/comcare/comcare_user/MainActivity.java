@@ -14,6 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.comcare.comcare_user.Fragments.firstFragment;
+import com.comcare.comcare_user.Fragments.secondFragment;
+import com.comcare.comcare_user.Fragments.thirdFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

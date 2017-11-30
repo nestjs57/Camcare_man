@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.comcare.comcare_user.secondFragment">
+    tools:context="com.comcare.comcare_user.Fragments.secondFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

@@ -1,4 +1,4 @@
-package com.comcare.comcare_user;
+package com.comcare.comcare_user.Fragments;
 
 
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.comcare.comcare_user.R;
 
 
 /**
