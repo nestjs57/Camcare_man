@@ -1,6 +1,5 @@
 package com.comcare.comcare_user.Fragments;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -73,8 +72,6 @@ public class firstFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-
-
         //dataSet.add(new JobModel("10.9", "Saksit Jantaraplin", "bluescreen", "5 นาทีที่แล้ว", "123456", "in process"));
 
 
@@ -84,6 +81,9 @@ public class firstFragment extends Fragment {
         showToken(inflate);
         return inflate;
     }
+
+
+
 
     public void showToken(View view) {
         Log.i("token", FirebaseInstanceId.getInstance().getToken());
@@ -217,7 +217,7 @@ public class firstFragment extends Fragment {
 
 
                 }
-                Collections.reverse(dataSet);
+                //Collections.reverse(dataSet);
                 adapter.notifyDataSetChanged();
             }
 
