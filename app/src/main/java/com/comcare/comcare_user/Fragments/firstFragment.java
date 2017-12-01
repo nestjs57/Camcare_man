@@ -132,8 +132,8 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-
-
+                        dataSet.clear();
+                        connectToFirebase();
                         handle.removeCallbacks(runable);
                     }
                 };
@@ -241,14 +241,14 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
 
                     try {
                         end = new LatLng(Double.parseDouble(latCur), Double.parseDouble(lngCur));
-
+                        km = ""+(int) (Double.parseDouble(String.valueOf(SphericalUtil.computeDistanceBetween(start, end) / 1000)));
                     }catch (Exception e){
-                        getLastLocation();
-                        end = new LatLng(Double.parseDouble(latCur), Double.parseDouble(lngCur));
+                       // getLastLocation();
+                        //end = new LatLng(Double.parseDouble(String.valueOf(getLastLocation().getLatitude())), Double.parseDouble(String.valueOf(getLastLocation().getLongitude())));
 
                     }
                     //end = new LatLng(Double.parseDouble(latCur), Double.parseDouble(lngCur));
-                    km = ""+(int) (Double.parseDouble(String.valueOf(SphericalUtil.computeDistanceBetween(start, end) / 1000)));
+                   // km = ""+(int) (Double.parseDouble(String.valueOf(SphericalUtil.computeDistanceBetween(start, end) / 1000)));
 
 
                     //if (firebaseDatabase.getUid().equals(uid)) {
@@ -325,7 +325,7 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
                         LocationServices.FusedLocationApi.requestLocationUpdates(mApiClient, mRequest, new LocationListener() {
                             @Override
                             public void onLocationChanged(Location location) {
-                                Toast.makeText(getActivity(), location.getLatitude()+" "+location.getLongitude(), Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getActivity(), location.getLatitude()+" "+location.getLongitude(), Toast.LENGTH_LONG).show();
 
                                 start = new LatLng(location.getLatitude(), location.getLongitude());
                                 connectToFirebase();
