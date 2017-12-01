@@ -137,7 +137,7 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
                         handle.removeCallbacks(runable);
                     }
                 };
-                handle.postDelayed(runable, 2000); // delay 3 s.
+                handle.postDelayed(runable, 1000); // delay 3 s.
             }
         });
     }
@@ -357,7 +357,15 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
     @Override
     public void onResume() {
         super.onResume();
-        //CMMapUtil.requestLocationTrackingOn(this);
+        recyclerView.smoothScrollToPosition(dataSet.size());
+
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        recyclerView.smoothScrollToPosition(dataSet.size());
+
+
     }
 
     @Override
@@ -367,4 +375,5 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
             mApiClient.disconnect();
         }
     }
+
 }
