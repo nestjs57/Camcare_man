@@ -18,7 +18,13 @@ android {
         }
     }
 }
+repositories {
+    maven {
+        mavenCentral()
+        url "https://jitpack.io"
 
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -41,11 +47,14 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
+
     compile 'com.android.support:multidex:1.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 
+    compile 'com.github.tajchert:nammu:1.2.0'
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 
 }
 

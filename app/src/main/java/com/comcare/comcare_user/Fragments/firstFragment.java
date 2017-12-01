@@ -1,7 +1,11 @@
 package com.comcare.comcare_user.Fragments;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,16 +14,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.comcare.comcare_user.Adapter.JobAdapter;
 import com.comcare.comcare_user.Models.JobModel;
 import com.comcare.comcare_user.R;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.maps.android.SphericalUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,12 +40,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class firstFragment extends Fragment {
+public class firstFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        OnMapReadyCallback {
 
 
     private ArrayList<JobModel> dataSet;
@@ -43,8 +60,17 @@ public class firstFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     ValueEventListener valueEventListener;
 
-
-
+    private GoogleMap mMapView;
+    private LatLng defaultLocation;
+    private GoogleApiClient mApiClient;
+    private LocationRequest mRequest;
+    private static final long UPDATE_INTERVAL = 5000;
+    private static final long FASTEST_INTERVAL = 1000;
+    private String latCur;
+    private String lngCur;
+    private LatLng end = null;
+    private LatLng start = null;
+    private ProgressDialog progressDialog;
 
     public firstFragment() {
         // Required empty public constructor
@@ -57,7 +83,9 @@ public class firstFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View inflate = inflater.inflate(R.layout.fragment_first, container, false);
-
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Loading Data ...");
+        progressDialog.show();
         dataSet = new ArrayList<JobModel>();
 
         adapter = new JobAdapter(dataSet);
@@ -75,10 +103,12 @@ public class firstFragment extends Fragment {
         //dataSet.add(new JobModel("10.9", "Saksit Jantaraplin", "bluescreen", "5 นาทีที่แล้ว", "123456", "in process"));
 
 
-        connectToFirebase();
+        //connectToFirebase();
         pullDown(inflate);
 
         showToken(inflate);
+        requestRealTimePermission();
+
         return inflate;
     }
 
@@ -206,9 +236,19 @@ public class firstFragment extends Fragment {
                     }
 
 
+                    latCur = (String) itemSnap.child("latCur").getValue();
+                    lngCur = (String) itemSnap.child("lngCur").getValue();
 
+                    try {
+                        end = new LatLng(Double.parseDouble(latCur), Double.parseDouble(lngCur));
 
+                    }catch (Exception e){
+                        getLastLocation();
+                        end = new LatLng(Double.parseDouble(latCur), Double.parseDouble(lngCur));
 
+                    }
+                    //end = new LatLng(Double.parseDouble(latCur), Double.parseDouble(lngCur));
+                    km = ""+(int) (Double.parseDouble(String.valueOf(SphericalUtil.computeDistanceBetween(start, end) / 1000)));
 
 
                     //if (firebaseDatabase.getUid().equals(uid)) {
@@ -219,6 +259,7 @@ public class firstFragment extends Fragment {
                 }
                 //Collections.reverse(dataSet);
                 adapter.notifyDataSetChanged();
+                progressDialog.dismiss();
             }
 
             @Override
@@ -234,4 +275,96 @@ public class firstFragment extends Fragment {
     }
 
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMapView = googleMap;
+    }
+    public void requestRealTimePermission() {
+        Nammu.askForPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, new PermissionCallback() {
+            @Override
+            public void permissionGranted() {
+                startLocationTracking();
+            }
+
+            @Override
+            public void permissionRefused() {
+
+            }
+        });
+    }
+    @SuppressWarnings({"MissingPermission"})
+    public void startLocationTracking() {
+
+        mApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    @Override
+                    public void onConnected(Bundle bundle) {
+                        //mMapView.setMyLocationEnabled(true);
+                        // get last location
+                        try {
+                            getLastLocation();
+                        } catch (Exception e) {
+                        }
+
+                        // set request
+                        mRequest = LocationRequest.create();
+                        mRequest.setInterval(UPDATE_INTERVAL);
+                        mRequest.setFastestInterval(FASTEST_INTERVAL);
+                        mRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                        LocationServices.FusedLocationApi.requestLocationUpdates(mApiClient, mRequest, new LocationListener() {
+                            @Override
+                            public void onLocationChanged(Location location) {
+                                Toast.makeText(getActivity(), location.getLatitude()+" "+location.getLongitude(), Toast.LENGTH_LONG).show();
+
+                                start = new LatLng(location.getLatitude(), location.getLongitude());
+                                connectToFirebase();
+
+                                //animateToDefaultLocation();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onConnectionSuspended(int i) {
+                        Toast.makeText(getActivity(), "Connection is susppended!", Toast.LENGTH_LONG).show();
+                    }
+                }).build();
+
+        mApiClient.connect();
+
+
+    }
+    @SuppressWarnings({"MissingPermission"})
+    public Location getLastLocation() {
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
+        //radiusCenter(location);
+
+        if (location != null) {
+        }
+        return location;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //CMMapUtil.requestLocationTrackingOn(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mApiClient != null) {
+            mApiClient.disconnect();
+        }
+    }
 }
