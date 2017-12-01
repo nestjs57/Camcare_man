@@ -71,11 +71,11 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
     private LatLng end = null;
     private LatLng start = null;
     private ProgressDialog progressDialog;
+    private String jobId;
 
     public firstFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,8 +111,6 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
 
         return inflate;
     }
-
-
 
 
     public void showToken(View view) {
@@ -151,21 +149,18 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
                 dataSet.clear();
                 adapter.notifyDataSetChanged();
 
-                String km, name, problem, time, jobId, status;
+                String km, name, problem, time,  status;
 
                 for (DataSnapshot itemSnap : dataSnapshot.getChildren()) {
-
                     JobModel jobModel = itemSnap.getValue(JobModel.class);
+
                     jobId = itemSnap.getKey();
 
                     km = jobModel.getKm() + "";
                     name = jobModel.getName() + "";
                     problem = jobModel.getproblem1() + "";
                     time = jobModel.getTime() + "";
-                    jobId = jobModel.getJobId() + "";
                     status = jobModel.getStatus() + "";
-
-
 
                     //date of post
                     String minute_inPost = (String) itemSnap.child("minute").getValue();
@@ -235,7 +230,6 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
 
                     }
 
-
                     latCur = (String) itemSnap.child("latCur").getValue();
                     lngCur = (String) itemSnap.child("lngCur").getValue();
 
@@ -251,9 +245,10 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
                    // km = ""+(int) (Double.parseDouble(String.valueOf(SphericalUtil.computeDistanceBetween(start, end) / 1000)));
 
 
-                    //if (firebaseDatabase.getUid().equals(uid)) {
+                    if (status.equals("1")) {
+
                         dataSet.add(new JobModel(km, name, problem, T, jobId, status));
-                    //}
+                    }
 
 
                 }

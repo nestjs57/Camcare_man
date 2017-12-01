@@ -1,11 +1,16 @@
 package com.comcare.comcare_user.Adapter;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.comcare.comcare_user.JobDetail;
 import com.comcare.comcare_user.Models.JobModel;
 import com.comcare.comcare_user.R;
 import com.comcare.comcare_user.ViewHolder.JobViewHolder;
@@ -17,6 +22,10 @@ public class JobAdapter extends RecyclerView.Adapter<JobViewHolder>{
 
     private ArrayList<JobModel> jobSet;
     public  JobAdapter(ArrayList<JobModel> jobSet){this.jobSet = jobSet;}
+    private ProgressDialog progressDialog;
+    Intent intent;
+    Runnable runable;
+
 
     @Override
     public JobViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,6 +40,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobViewHolder>{
 
         final JobModel data = jobSet.get(position);
 
+
         holder.txtKm.setText(data.getKm());
         holder.txtName.setText(data.getName());
         holder.txtProblem.setText(data.getproblem1());
@@ -38,10 +48,30 @@ public class JobAdapter extends RecyclerView.Adapter<JobViewHolder>{
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), data.getName(), Toast.LENGTH_LONG).show();
+            public void onClick(final View view) {
+                progressDialog = new ProgressDialog(view.getContext());
+                progressDialog.setMessage("Loading ...");
+                progressDialog.show();
+                final Handler handle = new Handler();
+                intent = new Intent(view.getContext(),JobDetail.class);
+                intent.putExtra("key",data.getJobId());
+
+                runable = new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        view.getContext().startActivity(intent);
+
+                        handle.removeCallbacks(runable);
+                        progressDialog.dismiss();
+
+                    }
+                };
+                handle.postDelayed(runable, 400); // delay 3 s.
             }
         });
+
     }
 
     @Override

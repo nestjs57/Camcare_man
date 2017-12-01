@@ -44,7 +44,7 @@
                 android:layout_weight="1"/>
 
             <TextView
-                android:id="@+id/tetCusname"
+                android:id="@+id/tvCusname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="textView"
@@ -75,7 +75,7 @@
             android:layout_marginBottom="15dp"/>
 
         <TextView
-            android:id="@+id/textProblem"
+            android:id="@+id/tvProblem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" ข้อมูลตัวอย่างครับ "
@@ -105,7 +105,7 @@
             android:layout_marginBottom="15dp"/>
 
         <TextView
-            android:id="@+id/txtOther"
+            android:id="@+id/tvOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" ตัวอย่าง "
