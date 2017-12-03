@@ -9,11 +9,13 @@ import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,8 +42,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -80,6 +94,11 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
 
     private ProgressDialog progressDialog;
 
+
+    private static final String AUTH_KEY = "key=AAAA2AyIZok:APA91bH6i3O8cGTzcjcNJtLC2kk8Zdn_eiRodNcGA1WJWxsWkA2AyEBCDGTEqlxXf88uMm7e9Hv67v5g_wAnGTQpi8m81SkjGSmewH4mQuk0EgcDePQy_j2xYjsg8k5-2KRNUNBo4UAI";
+    private TextView mTextView;
+
+
     public JobDetail() {
     }
 
@@ -88,6 +107,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
         progressDialog = new ProgressDialog(this);
+        showToken();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -339,6 +359,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
                                 DatabaseReference ref = database.getReference();
                                 ref.child("order").child(key).child("status").setValue("2");
                                 progressDialog.dismiss();
+                                sendWithOtherThread("token");
                                 finish();
                                 handle.removeCallbacks(runable);
                             }
@@ -390,6 +411,90 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
         markerOption.title(text);
         mMapView.addMarker(markerOption);
         mMapView.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+    }
+
+
+    //noti
+    // notification
+
+    public void showToken() {
+        Log.i("token", FirebaseInstanceId.getInstance().getToken());
+    }
+    public void sendToken(View view) {
+        sendWithOtherThread("token");
+    }
+    private void sendWithOtherThread(final String type) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                pushNotification(type);
+            }
+        }).start();
+    }
+    private void pushNotification(String type) {
+        JSONObject jPayload = new JSONObject();
+        JSONObject jNotification = new JSONObject();
+        JSONObject jData = new JSONObject();
+        try {
+            jNotification.put("title", "Comcare");
+            jNotification.put("body", "ช่างตอบรับงานของคุณแล้ว");
+            jNotification.put("sound", "default");
+            jNotification.put("badge", "1");
+            jNotification.put("click_action", "ThirdActivity");
+            jNotification.put("icon", "ic_notification");
+
+            //jData.put("picture", "http://opsbug.com/static/google-io.jpg");
+
+            switch(type) {
+                case "tokens":
+                    JSONArray ja = new JSONArray();
+                    ja.put("cJOPh7-d3s8:APA91bFfnpln0U2uW4odOhSSAIqpW9qu-nXNpRqR0me9oripjQr9irfBy3nDpb64aLDZB2BuYz0ZmOy1ZNqHIhITcn6yUaibH-GLxjSjlBJJ2hU2neaKTck3Jp9LCFS1V-zNIihbTbnO");
+                    ja.put(FirebaseInstanceId.getInstance().getToken());
+                    jPayload.put("registration_ids", ja);
+                    break;
+                case "topic":
+                    jPayload.put("to", "/topics/news");
+                    break;
+                case "condition":
+                    jPayload.put("condition", "'sport' in topics || 'news' in topics");
+                    break;
+                default:
+                    jPayload.put("to", FirebaseInstanceId.getInstance().getToken());
+            }
+
+            jPayload.put("priority", "high");
+            jPayload.put("notification", jNotification);
+            jPayload.put("data", jData);
+
+            URL url = new URL("https://fcm.googleapis.com/fcm/send");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", AUTH_KEY);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            // Send FCM message content.
+            OutputStream outputStream = conn.getOutputStream();
+            outputStream.write(jPayload.toString().getBytes());
+
+            // Read FCM response.
+            InputStream inputStream = conn.getInputStream();
+            final String resp = convertStreamToString(inputStream);
+
+            Handler h = new Handler(Looper.getMainLooper());
+            h.post(new Runnable() {
+                @Override
+                public void run() {
+                    //mTextView.setText(resp);
+                }
+            });
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next().replace(",", ",\n") : "";
     }
 
 }

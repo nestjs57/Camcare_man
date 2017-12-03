@@ -55,12 +55,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				.setContentTitle(notification.getTitle())
 				.setContentText(notification.getBody())
 				.setAutoCancel(true)
+				.setSmallIcon(R.drawable.logo)
 				.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 				//.setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.win))
 				.setContentIntent(pendingIntent)
-				.setContentInfo("Hello")
-				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-				.setColor(getColor(R.color.colorAccent))
+				.setContentInfo("New")
+				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.logo))
+				//.setColor(getColor(R.color.com_facebook_blue))
 				.setLights(Color.RED, 1000, 300)
 				.setDefaults(Notification.DEFAULT_VIBRATE)
 				.setNumber(++numMessages);
@@ -99,4 +100,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		assert notificationManager != null;
 		notificationManager.notify(0, notificationBuilder.build());
 	}
+
+
 }
