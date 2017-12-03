@@ -326,10 +326,10 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                try {
-                    path = dataSnapshot.child("profile_image").getValue().toString();
-                }catch (Exception e){
-                }
+                //try {
+                path = (String) dataSnapshot.child("profile_image").getValue();
+                //}catch (Exception e){
+                //}
 
                 token = (String) dataSnapshot.child("token").getValue();
                 Glide.with(getApplication()).load(path).transform(new CircleTransform(getApplication())).into(pathProPic);
