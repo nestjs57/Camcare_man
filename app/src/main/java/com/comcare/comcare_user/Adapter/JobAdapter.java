@@ -55,13 +55,13 @@ public class JobAdapter extends RecyclerView.Adapter<JobViewHolder>{
                 final Handler handle = new Handler();
                 intent = new Intent(view.getContext(),JobDetail.class);
                 intent.putExtra("key",data.getJobId());
-
                 runable = new Runnable() {
 
                     @Override
                     public void run() {
 
-                        view.getContext().startActivity(intent);
+                       view.getContext().startActivity(intent);
+                       // this.overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
 
                         handle.removeCallbacks(runable);
                         progressDialog.dismiss();

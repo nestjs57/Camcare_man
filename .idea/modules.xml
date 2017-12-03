@@ -4,10 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Camcare_man.iml" filepath="$PROJECT_DIR$/.idea/Camcare_man.iml" />
       <module fileurl="file://E:\Camcare_man\Camcare_man.iml" filepath="E:\Camcare_man\Camcare_man.iml" />
-      <module fileurl="file://F:\android_project\tt\Comcare_man1\Camcare_man\.idea\Camcare_man.iml" filepath="F:\android_project\tt\Comcare_man1\Camcare_man\.idea\Camcare_man.iml" />
       <module fileurl="file://C:\Users\nongt\Desktop\Camcare_man\Camcare_man.iml" filepath="C:\Users\nongt\Desktop\Camcare_man\Camcare_man.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://F:\android_project\tt\Comcare_man1\Camcare_man\app\app.iml" filepath="F:\android_project\tt\Comcare_man1\Camcare_man\app\app.iml" />
     </modules>
   </component>
 </project>

@@ -6,7 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +26,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.comcare.comcare_user.Fragments.secondFragment;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,18 +45,20 @@ import com.google.firebase.storage.StorageReference;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class JobDetail extends AppCompatActivity {
+public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener,
+        OnMapReadyCallback {
 
     DatabaseReference databaseReference;
     ValueEventListener valueEventListener,li;
     Intent intent = getIntent();
     private TextView txtCusname, txtProblem, txtOther, txtType, txtDate, txtAddress1, txtAddress2, txtProblem1, txtProblem2;
     private ImageView txtPath_img1, txtPath_img2, txtPath_img3, txtPath_img4, popupImg, pathProPic;
-    private Button btndelete,btnaccept;
+    private Button btnCall,btnaccept;
     private int chkImg = 0;
     private Boolean del = false;
     private String Uid, path;
-    private ProgressDialog progressDialog;
+
 
     private ProgressBar spinner;
     StorageReference storageReference;
@@ -55,11 +68,26 @@ public class JobDetail extends AppCompatActivity {
     private DatabaseReference childref;
 
 
+
+    private GoogleMap mMapView;
+    private LatLng defaultLocation;
+    private GoogleApiClient mApiClient;
+    private LocationRequest mRequest;
+    private static final long UPDATE_INTERVAL = 5000;
+    private static final long FASTEST_INTERVAL = 1000;
+    private double latCur;
+    private double lngCur;
+
+    private ProgressDialog progressDialog;
+
+    public JobDetail() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
-
+        progressDialog = new ProgressDialog(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -75,7 +103,8 @@ public class JobDetail extends AppCompatActivity {
         txtPath_img3 = (ImageView) findViewById(R.id.imageView6);
         txtPath_img4 = (ImageView) findViewById(R.id.imageView7);
         pathProPic = (ImageView) findViewById(R.id.proPic);
-        btnaccept = (Button) findViewById(R.id.button7);
+        btnCall  = (Button) findViewById(R.id.btnCall);
+        btnaccept = (Button) findViewById(R.id.button4);
 //        txtType = (TextView) findViewById(R.id.txtType);
 //        txtDate = (TextView) findViewById(R.id.txtTime);
 //        txtAddress2 = (TextView) findViewById(R.id.txtLoca2);
@@ -85,10 +114,30 @@ public class JobDetail extends AppCompatActivity {
 //        spinner = (ProgressBar)findViewById(R.id.progressBar2);
 //        spinner.setVisibility(View.INVISIBLE);
 
-        connectToFirebase();
-        acceptJob(intent.getStringExtra("key"));
+
+        //connectToFirebase();
 
 
+        bindWidgetMap();
+
+
+    }
+    private void intentCall(final String number){
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = number;
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                startActivity(intent);
+            }
+        });
+    }
+    private void bindWidgetMap() {
+
+        //
+        android.app.FragmentManager fragmentMgr = getFragmentManager();
+        SupportMapFragment mMapViewFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mMap);
+        mMapViewFragment.getMapAsync(this);
 
 
     }
@@ -109,39 +158,27 @@ public class JobDetail extends AppCompatActivity {
         intent = getIntent();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-
+        acceptJob(intent.getStringExtra("key"));
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-
-
-
-//                txtDate.setText(dataSnapshot.child("day").getValue().toString() + " " +
-//                        dataSnapshot.child("month").getValue().toString() + " " +
-//                        dataSnapshot.child("year").getValue().toString() + "\n\n" +
-//                        dataSnapshot.child("hour").getValue().toString() + " : " +
-//                        dataSnapshot.child("minute").getValue().toString());
-//                txtAddress2.setText(dataSnapshot.child("address1").getValue().toString());
-//                txtAddress1.setText(dataSnapshot.child("address2").getValue().toString());
-//                txtProblem1.setText(dataSnapshot.child("problem1").getValue().toString());
-//                txtProblem2.setText(dataSnapshot.child("problem2").getValue().toString());
 
                 Uid = dataSnapshot.child("user_id").getValue().toString();getProPicPath(Uid);
                 txtCusname.setText(dataSnapshot.child("name").getValue().toString());
                 txtProblem.setText(dataSnapshot.child("problem1").getValue().toString());
                 txtOther.setText(dataSnapshot.child("problem2").getValue().toString());
 
-
+                String lat = (String)  dataSnapshot.child("latCur").getValue();
+                String lng = (String)  dataSnapshot.child("lngCur").getValue();
+               // addMarker(Double.parseDouble(lat),Double.parseDouble(lng),"");
                 //Toast.makeText(getApplication(), dataSnapshot.child("Path_img1").getValue().toString(), Toast.LENGTH_LONG).show();
-
                 Glide.with(getApplication()).load(dataSnapshot.child("Path_img1").getValue().toString()).into(txtPath_img1);
                 Glide.with(getApplication()).load(dataSnapshot.child("Path_img2").getValue().toString()).into(txtPath_img2);
                 Glide.with(getApplication()).load(dataSnapshot.child("Path_img3").getValue().toString()).into(txtPath_img3);
                 Glide.with(getApplication()).load(dataSnapshot.child("Path_img4").getValue().toString()).into(txtPath_img4);
 
 
+                intentCall(dataSnapshot.child("tel").getValue().toString());
                 if (dataSnapshot.child("Path_img1").getValue().toString().equals("null")) {
                     chkImg = 1;
                 } else if (dataSnapshot.child("Path_img2").getValue().toString().equals("null")) {
@@ -159,6 +196,8 @@ public class JobDetail extends AppCompatActivity {
 
 
                 setEvent(dataSnapshot);
+                addMarker (Double.parseDouble(lat),Double.parseDouble(lng),"");
+
             }
 
 
@@ -263,7 +302,7 @@ public class JobDetail extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 path = dataSnapshot.child("profile_image").getValue().toString();
-                Glide.with(getApplication()).load(path).into(pathProPic);
+                Glide.with(getApplication()).load(path).transform(new CircleTransform(getApplication())).into(pathProPic);
 
             }
             @Override
@@ -276,27 +315,81 @@ public class JobDetail extends AppCompatActivity {
         childref.addValueEventListener(valueEventListener);
     }
 
-//    private void addMarker(double lat, double lng, String text) {
-//
-//        LatLng latLng = new LatLng(lat, lng);
-//        MarkerOptions markerOption = new MarkerOptions();
-//        markerOption.position(latLng);
-//        markerOption.title(text);
-//        markerOption.icon(BitmapDescriptorFactory.fromResource(R.mipmap.wrench));
-//        mMapView.addMarker(markerOption);
-//    }
 
     public void acceptJob(final String key){
         btnaccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference();
-                ref.child("order").child(key).child("status").setValue("2");
-                finish();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(JobDetail.this);
+                builder.setMessage("ต้องการรับงานนี้หรือไม่ ?");
+
+                builder.setPositiveButton("รับ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        progressDialog.setMessage("รอสักครู่ ...");
+                        progressDialog.show();
+                        final Handler handle = new Handler();
+                        runable = new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference ref = database.getReference();
+                                ref.child("order").child(key).child("status").setValue("2");
+                                progressDialog.dismiss();
+                                finish();
+                                handle.removeCallbacks(runable);
+                            }
+                        };
+                        handle.postDelayed(runable, 500);
+
+                    }
+                });
+                builder.setNegativeButton("ไม่รับ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.dismiss();
+                    }
+                });
+                builder.show();
+
+
             }
         });
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMapView = googleMap;
+        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        connectToFirebase();
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    private void addMarker(double lat, double lng, String text) {
+
+        LatLng latLng = new LatLng(lat, lng);
+        MarkerOptions markerOption = new MarkerOptions();
+        markerOption.position(latLng);
+        markerOption.title(text);
+        mMapView.addMarker(markerOption);
+        mMapView.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
 
 }
