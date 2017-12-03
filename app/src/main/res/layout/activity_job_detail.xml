@@ -239,6 +239,8 @@
             android:drawableLeft="@drawable/phone"
             android:drawablePadding="-50dp"
             android:gravity="center"
+            android:scaleX="1"
+            android:scaleY="1"
             android:text="    ติดต่อลูกค้า"
             android:textColor="#fff"
             android:textStyle="bold" />

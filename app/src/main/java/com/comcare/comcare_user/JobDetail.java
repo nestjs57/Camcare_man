@@ -93,7 +93,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
     private double lngCur;
 
     private ProgressDialog progressDialog;
-
+    private String token;
 
     private static final String AUTH_KEY = "key=AAAA2AyIZok:APA91bH6i3O8cGTzcjcNJtLC2kk8Zdn_eiRodNcGA1WJWxsWkA2AyEBCDGTEqlxXf88uMm7e9Hv67v5g_wAnGTQpi8m81SkjGSmewH4mQuk0EgcDePQy_j2xYjsg8k5-2KRNUNBo4UAI";
     private TextView mTextView;
@@ -190,6 +190,9 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
 
                 String lat = (String)  dataSnapshot.child("latCur").getValue();
                 String lng = (String)  dataSnapshot.child("lngCur").getValue();
+
+                //token = (String) dataSnapshot.child("token").getValue();
+
                // addMarker(Double.parseDouble(lat),Double.parseDouble(lng),"");
                 //Toast.makeText(getApplication(), dataSnapshot.child("Path_img1").getValue().toString(), Toast.LENGTH_LONG).show();
                 Glide.with(getApplication()).load(dataSnapshot.child("Path_img1").getValue().toString()).into(txtPath_img1);
@@ -234,6 +237,8 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
 
 
     public void setEvent(final DataSnapshot dataSnapshot) {
+
+
 
         if (chkImg == 2 || chkImg == 3||chkImg == 4||chkImg == 5) {
             txtPath_img1.setOnClickListener(new View.OnClickListener() {
@@ -321,7 +326,12 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                path = dataSnapshot.child("profile_image").getValue().toString();
+                try {
+                    path = dataSnapshot.child("profile_image").getValue().toString();
+                }catch (Exception e){
+                }
+
+                token = (String) dataSnapshot.child("token").getValue();
                 Glide.with(getApplication()).load(path).transform(new CircleTransform(getApplication())).into(pathProPic);
 
             }
@@ -427,11 +437,11 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
         new Thread(new Runnable() {
             @Override
             public void run() {
-                pushNotification(type);
+                pushNotification(type ,token);
             }
         }).start();
     }
-    private void pushNotification(String type) {
+    private void pushNotification(String type ,String token) {
         JSONObject jPayload = new JSONObject();
         JSONObject jNotification = new JSONObject();
         JSONObject jData = new JSONObject();
@@ -448,7 +458,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
             switch(type) {
                 case "tokens":
                     JSONArray ja = new JSONArray();
-                    ja.put("cJOPh7-d3s8:APA91bFfnpln0U2uW4odOhSSAIqpW9qu-nXNpRqR0me9oripjQr9irfBy3nDpb64aLDZB2BuYz0ZmOy1ZNqHIhITcn6yUaibH-GLxjSjlBJJ2hU2neaKTck3Jp9LCFS1V-zNIihbTbnO");
+                    ja.put(token);
                     ja.put(FirebaseInstanceId.getInstance().getToken());
                     jPayload.put("registration_ids", ja);
                     break;
