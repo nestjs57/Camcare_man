@@ -20,6 +20,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.comcare.comcare_user.Fragments.secondFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,10 +38,10 @@ public class JobDetail extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     ValueEventListener valueEventListener,li;
-    private Intent intent;
+    Intent intent = getIntent();
     private TextView txtCusname, txtProblem, txtOther, txtType, txtDate, txtAddress1, txtAddress2, txtProblem1, txtProblem2;
     private ImageView txtPath_img1, txtPath_img2, txtPath_img3, txtPath_img4, popupImg, pathProPic;
-    private Button btndelete;
+    private Button btndelete,btnaccept;
     private int chkImg = 0;
     private Boolean del = false;
     private String Uid, path;
@@ -47,6 +51,8 @@ public class JobDetail extends AppCompatActivity {
     StorageReference storageReference;
     private String statusChk;
     private Runnable runable;
+    private DatabaseReference dbref;
+    private DatabaseReference childref;
 
 
     @Override
@@ -69,6 +75,7 @@ public class JobDetail extends AppCompatActivity {
         txtPath_img3 = (ImageView) findViewById(R.id.imageView6);
         txtPath_img4 = (ImageView) findViewById(R.id.imageView7);
         pathProPic = (ImageView) findViewById(R.id.proPic);
+        btnaccept = (Button) findViewById(R.id.button7);
 //        txtType = (TextView) findViewById(R.id.txtType);
 //        txtDate = (TextView) findViewById(R.id.txtTime);
 //        txtAddress2 = (TextView) findViewById(R.id.txtLoca2);
@@ -79,6 +86,9 @@ public class JobDetail extends AppCompatActivity {
 //        spinner.setVisibility(View.INVISIBLE);
 
         connectToFirebase();
+        acceptJob(intent.getStringExtra("key"));
+
+
 
 
     }
@@ -157,8 +167,8 @@ public class JobDetail extends AppCompatActivity {
 
             }
         };
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference childref = dbref.child("order").child(intent.getStringExtra("key"));
+        dbref = FirebaseDatabase.getInstance().getReference();
+        childref = dbref.child("order").child(intent.getStringExtra("key"));
         childref.addValueEventListener(valueEventListener);
     }
 
@@ -261,9 +271,32 @@ public class JobDetail extends AppCompatActivity {
 
             }
         };
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference childref = dbref.child("user").child(Uid).child("info");
+        dbref = FirebaseDatabase.getInstance().getReference();
+        childref = dbref.child("user").child(Uid).child("info");
         childref.addValueEventListener(valueEventListener);
+    }
+
+//    private void addMarker(double lat, double lng, String text) {
+//
+//        LatLng latLng = new LatLng(lat, lng);
+//        MarkerOptions markerOption = new MarkerOptions();
+//        markerOption.position(latLng);
+//        markerOption.title(text);
+//        markerOption.icon(BitmapDescriptorFactory.fromResource(R.mipmap.wrench));
+//        mMapView.addMarker(markerOption);
+//    }
+
+    public void acceptJob(final String key){
+        btnaccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference();
+                ref.child("order").child(key).child("status").setValue("2");
+                finish();
+            }
+        });
     }
 
 }
