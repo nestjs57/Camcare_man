@@ -351,7 +351,8 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
             @Override
             public void onClick(View view) {
 
-
+                Toast.makeText(JobDetail.this, token,
+                        Toast.LENGTH_LONG).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(JobDetail.this);
                 builder.setMessage("ต้องการรับงานนี้หรือไม่ ?");
 
@@ -406,7 +407,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
         mMapView = googleMap;
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         connectToFirebase();
-    }
+           }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
@@ -437,11 +438,11 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
         new Thread(new Runnable() {
             @Override
             public void run() {
-                pushNotification(type ,token);
+                pushNotification(type);
             }
         }).start();
     }
-    private void pushNotification(String type ,String token) {
+    private void pushNotification(String type) {
         JSONObject jPayload = new JSONObject();
         JSONObject jNotification = new JSONObject();
         JSONObject jData = new JSONObject();
