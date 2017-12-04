@@ -51,12 +51,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:gravity="bottom"
-                android:text="อาการ :  "
+                android:text="ชื่อลูกค้า : "
                 android:textColor="#aa333333"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tvProblem"
+                android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -83,7 +83,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:gravity="center_vertical"
-                android:text="วันที่เรียกช่าง :  "
+                android:text="วันที่เริ่มงาน : "
                 android:textColor="#aa333333"
                 android:textSize="16sp" />
 
@@ -135,7 +135,7 @@
                 android:layout_gravity="top"
                 android:layout_weight="9.5"
                 android:gravity="top"
-                android:text="รอช่างตอบรับ"
+                android:text="ระหว่างดำเนินการ"
                 android:textColor="@android:color/holo_orange_dark"
                 android:textSize="16sp" />
         </LinearLayout>

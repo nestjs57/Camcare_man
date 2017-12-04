@@ -54,7 +54,7 @@ public class secondFragment extends Fragment {
                 btn2.setTextColor(Color.parseColor("#bdc1c9"));
                 view1.setVisibility(View.VISIBLE);
 
-                final FragmentStatus1 oneFragment = new FragmentStatus1();
+                FragmentStatus1 oneFragment = new FragmentStatus1();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment, oneFragment);
                 transaction.commit();
@@ -69,7 +69,7 @@ public class secondFragment extends Fragment {
                 btn2.setTextColor(Color.parseColor("#4052b5"));
                 view2.setVisibility(View.VISIBLE);
 
-                final FragmentStatus2 twoFragment = new FragmentStatus2();
+                FragmentStatus2 twoFragment = new FragmentStatus2();
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment,twoFragment );
                 transaction.commit();
