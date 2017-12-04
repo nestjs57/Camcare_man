@@ -107,7 +107,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
         progressDialog = new ProgressDialog(this);
-        showToken();
+        //showToken();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -460,7 +460,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
                 case "tokens":
                     JSONArray ja = new JSONArray();
                     ja.put(token);
-                    ja.put(FirebaseInstanceId.getInstance().getToken());
+                    //ja.put(FirebaseInstanceId.getInstance().getToken());
                     jPayload.put("registration_ids", ja);
                     break;
                 case "topic":
@@ -470,7 +470,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
                     jPayload.put("condition", "'sport' in topics || 'news' in topics");
                     break;
                 default:
-                    jPayload.put("to", FirebaseInstanceId.getInstance().getToken());
+                    jPayload.put("to", token);
             }
 
             jPayload.put("priority", "high");

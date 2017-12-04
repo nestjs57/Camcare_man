@@ -106,7 +106,7 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
         //connectToFirebase();
         pullDown(inflate);
 
-        showToken(inflate);
+        //showToken(inflate);
         requestRealTimePermission();
 
         return inflate;

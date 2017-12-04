@@ -42,11 +42,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		bundle.putString(FCM_PARAM, data.get(FCM_PARAM));
 
 
-//		Intent intent = new Intent(this, ThirdActivity.class);
+		//Intent intent = new Intent(this, MainActivity.class);
 		Intent intent = getPackageManager().getLaunchIntentForPackage("com.comcare.comcarecustomer");
 		intent.addCategory(Intent.CATEGORY_LAUNCHER);
 		intent.putExtras(bundle);
-		//startActivity(intent);
+		startActivity(intent);
 
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
