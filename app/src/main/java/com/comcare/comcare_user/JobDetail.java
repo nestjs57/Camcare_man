@@ -460,6 +460,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
                 case "tokens":
                     JSONArray ja = new JSONArray();
                     ja.put(token);
+                    ja.put(FirebaseInstanceId.getInstance().getToken());
                     jPayload.put("registration_ids", ja);
                     break;
                 case "topic":
