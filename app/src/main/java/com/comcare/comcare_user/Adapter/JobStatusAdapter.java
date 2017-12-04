@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.comcare.comcare_user.Models.JobStatusModel;
 import com.comcare.comcare_user.R;
 import com.comcare.comcare_user.JobDetail;
+import com.comcare.comcare_user.StatusDetail;
 import com.comcare.comcare_user.ViewHolder.JobStatusViewHolder;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -58,12 +59,11 @@ public class JobStatusAdapter extends RecyclerView.Adapter<JobStatusViewHolder>{
             holder.txtStatus.setTextColor(Color.parseColor("#FF8800"));
         }else if (data.getStatus().equals("3")){
             holder.txtStatus.setText("รอการยืนยัน");
-            holder.txtStatus.setTextColor(Color.parseColor("#00FF00"));
+            holder.txtStatus.setTextColor(Color.parseColor("#FF0000"));
         }else if (data.getStatus().equals("4")){
             holder.txtStatus.setText("เสร็จสิ้น");
             holder.txtStatus.setTextColor(Color.parseColor("#00FF00"));
         }
-
 
 
         holder.txtName.setText(data.getName());
@@ -79,7 +79,7 @@ public class JobStatusAdapter extends RecyclerView.Adapter<JobStatusViewHolder>{
                 progressDialog.setMessage("Loading ...");
                 progressDialog.show();
                 final Handler handle = new Handler();
-                intent = new Intent(view.getContext(),JobDetail.class);
+                intent = new Intent(view.getContext(),StatusDetail.class);
                 intent.putExtra("key",data.getOrder_id());
 
                 runable = new Runnable() {
@@ -100,7 +100,6 @@ public class JobStatusAdapter extends RecyclerView.Adapter<JobStatusViewHolder>{
         });
 
     }
-
 
     @Override
     public int getItemCount() {
