@@ -137,11 +137,11 @@ public class FragmentStatus1 extends Fragment {
 
                     String TotalDateTime = day+"-"+month+"-"+year+" | "+hour+" : "+minute;
 
-//                    if (firebaseDatabase.getUid().toString().equals(mid)) {
+                    if (firebaseDatabase.getUid().toString().equals(mid)) {
                         if (status.equals("2") || status.equals("3")) {
                             dataSet.add(new JobStatusModel(name, TotalDateTime, status, type, time, mid, oid));
                         }
-//                    }
+                    }
                 }
                 Collections.reverse(dataSet);
                 adapter.notifyDataSetChanged();
