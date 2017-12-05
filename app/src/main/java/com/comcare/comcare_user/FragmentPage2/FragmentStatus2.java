@@ -136,7 +136,7 @@ public class FragmentStatus2 extends Fragment {
 
                     String TotalDateTime = day+"-"+month+"-"+year+" | "+hour+" : "+minute;
 
-                    if (status.equals("4")){
+                    if (firebaseDatabase.getUid().equals(mid) && status.equals("4")){
                         dataSet.add(new JobStatusModel(name, TotalDateTime, status, type, time, mid, oid));
                     }
 

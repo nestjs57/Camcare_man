@@ -124,8 +124,7 @@ public class FragmentStatus1 extends Fragment {
                     status = statusModel.getStatus() + "";
                     type = statusModel.getType() + "";
                     time = statusModel.getTime() + "";
-                    mid = statusModel.getMan_id();
-
+                    mid = (String) itemSnap.child("man_id").getValue();
 
 
 
@@ -138,11 +137,11 @@ public class FragmentStatus1 extends Fragment {
 
                     String TotalDateTime = day+"-"+month+"-"+year+" | "+hour+" : "+minute;
 
-                    if (status.equals("2") || status.equals("3")){
-                        dataSet.add(new JobStatusModel(name, TotalDateTime, status, type, time, mid, oid));
-                    }
-
-
+//                    if (firebaseDatabase.getUid().toString().equals(mid)) {
+                        if (status.equals("2") || status.equals("3")) {
+                            dataSet.add(new JobStatusModel(name, TotalDateTime, status, type, time, mid, oid));
+                        }
+//                    }
                 }
                 Collections.reverse(dataSet);
                 adapter.notifyDataSetChanged();

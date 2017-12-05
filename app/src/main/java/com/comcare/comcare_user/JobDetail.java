@@ -38,6 +38,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,10 +76,8 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
     private Boolean del = false;
     private String Uid, path;
 
-
     private ProgressBar spinner;
-    StorageReference storageReference;
-    private String statusChk;
+        private String statusChk;
     private Runnable runable;
     private DatabaseReference dbref;
     private DatabaseReference childref;
@@ -95,6 +95,8 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
 
     private ProgressDialog progressDialog;
     private String token;
+    StorageReference storageReference;
+    FirebaseUser firebaseDatabase = FirebaseAuth.getInstance().getCurrentUser();
 
     private static final String AUTH_KEY = "key=AAAA2AyIZok:APA91bH6i3O8cGTzcjcNJtLC2kk8Zdn_eiRodNcGA1WJWxsWkA2AyEBCDGTEqlxXf88uMm7e9Hv67v5g_wAnGTQpi8m81SkjGSmewH4mQuk0EgcDePQy_j2xYjsg8k5-2KRNUNBo4UAI";
     private TextView mTextView;
@@ -370,6 +372,7 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 DatabaseReference ref = database.getReference();
                                 ref.child("order").child(key).child("status").setValue("2");
+                                ref.child("order").child(key).child("man_id").setValue(firebaseDatabase.getUid());
                                 progressDialog.dismiss();
                                 sendWithOtherThread("token");
                                 finish();

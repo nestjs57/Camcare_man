@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".StatusDetail"></activity>
 
     </application>
 

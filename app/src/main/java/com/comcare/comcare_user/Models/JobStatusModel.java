@@ -64,20 +64,20 @@ public class JobStatusModel {
         this.time = time;
     }
 
-    public String getMan_id() {
-        return man_id;
-    }
-
-    public void setMan_id(String Man_id) {
-        this.man_id = man_id;
-    }
-
     public String getOrder_id() {
         return order_id;
     }
 
     public void setOrder_id(String order_id) {
         this.order_id = order_id;
+    }
+
+    public String getMan_id() {
+        return man_id;
+    }
+
+    public void setMan_id(String man_id) {
+        this.man_id = man_id;
     }
 }
 
