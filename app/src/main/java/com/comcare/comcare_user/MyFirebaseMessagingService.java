@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -42,16 +43,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		bundle.putString(FCM_PARAM, data.get(FCM_PARAM));
 
 
-		//Intent intent = new Intent(this, MainActivity.class);
-		Intent intent = getPackageManager().getLaunchIntentForPackage("com.comcare.comcarecustomer");
+		//		Intent intent = new Intent(this, ThirdActivity.class);
+		Intent intent = getPackageManager().getLaunchIntentForPackage("com.transjai.transjaimans");
 		intent.addCategory(Intent.CATEGORY_LAUNCHER);
 		intent.putExtras(bundle);
-		startActivity(intent);
+		//startActivity(intent);
 
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this ,getString(R.string.notification_channel_id))
 				.setContentTitle(notification.getTitle())
 				.setContentText(notification.getBody())
 				.setAutoCancel(true)
