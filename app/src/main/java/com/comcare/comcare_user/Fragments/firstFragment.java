@@ -100,7 +100,7 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
 
         recyclerView.setAdapter(adapter);
 
-        //dataSet.add(new JobModel("10.9", "Saksit Jantaraplin", "bluescreen", "5 นาทีที่แล้ว", "123456", "in process"));
+//        dataSet.add(new JobModel("10.9", "Saksit Jantaraplin", "bluescreen", "5 นาทีที่แล้ว", "123456", "in process"));
 
 
         //connectToFirebase();
