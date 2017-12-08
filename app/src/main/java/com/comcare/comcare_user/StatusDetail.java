@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -142,10 +143,12 @@ public class StatusDetail extends AppCompatActivity {
                         chkImg = 5;
                     }
 
-                    if (!statusChk.equals("1")) {
+                    if (!statusChk.equals("2")) {
+                        btndelete.setText("ส่งงาน");
                         btndelete.setVisibility(View.INVISIBLE);
+
                     }
-                    setEvent(dataSnapshot);
+                    setEvent(dataSnapshot, intent.getStringExtra("key"));
                 }
             }
 
@@ -160,44 +163,43 @@ public class StatusDetail extends AppCompatActivity {
     }
 
 
-    public void setEvent(final DataSnapshot dataSnapshot) {
+    public void setEvent(final DataSnapshot dataSnapshot, final String key) {
 
 
         btndelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(StatusDetail.this);
+                builder.setMessage("งานซ่อมเสร็จเรียบร้อยแล้วใช่หรือไม่ ?");
 
-
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(StatusDetail.this);
-                builder.setMessage("คุณต้องการลบงานนี้หรือไม่ ?");
-                builder.setPositiveButton("ลบ", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        //spinner.setVisibility(View.VISIBLE);
-                        progressDialog.setMessage("กำลังลบ...");
-                        progressDialog.setTitle("Delete.");
+                        progressDialog.setMessage("รอสักครู่ ...");
                         progressDialog.show();
                         final Handler handle = new Handler();
                         runable = new Runnable() {
 
                             @Override
                             public void run() {
-                                //spinner.setVisibility(View.INVISIBLE);
+
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference ref = database.getReference();
+                                ref.child("order").child(key).child("status").setValue("4");
                                 progressDialog.dismiss();
-                                del = true;
-                                btnDelete();
                                 finish();
                                 handle.removeCallbacks(runable);
                             }
                         };
-                        handle.postDelayed(runable, 1500); // delay 3 s.
+                        handle.postDelayed(runable, 500);
 
                     }
                 });
-                builder.setNegativeButton("ยกเลิก", null);
-                builder.create();
-
-                // สุดท้ายอย่าลืม show() ด้วย
+                builder.setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.dismiss();
+                    }
+                });
                 builder.show();
 
 

@@ -546,8 +546,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="30dp"
-                    android:background="#fe0202"
-                    android:text="ยกเลิกงานนี้"
+                    android:background="@android:color/holo_green_light"
+                    android:text="ส่งงานซ่อม"
                     android:textColor="#fff"
                     android:textSize="18dp"
                     android:textStyle="bold" />
