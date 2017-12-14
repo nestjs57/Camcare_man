@@ -252,7 +252,7 @@ public class firstFragment extends Fragment implements GoogleMap.OnMyLocationBut
 
 
                 }
-                //Collections.reverse(dataSet);
+                Collections.reverse(dataSet);
                 adapter.notifyDataSetChanged();
                 progressDialog.dismiss();
             }

@@ -354,8 +354,8 @@ public class JobDetail extends AppCompatActivity implements GoogleMap.OnMyLocati
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(JobDetail.this, token,
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(JobDetail.this, token,
+//                        Toast.LENGTH_LONG).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(JobDetail.this);
                 builder.setMessage("ต้องการรับงานนี้หรือไม่ ?");
 
