@@ -143,7 +143,7 @@ public class FragmentStatus1 extends Fragment {
                         }
                     }
                 }
-                Collections.reverse(dataSet);
+//                Collections.reverse(dataSet);
                 adapter.notifyDataSetChanged();
             }
 
